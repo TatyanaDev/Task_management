@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  app:
+    container_name: node_app
+    build: .
+    ports:
+      - "${DOCKERPORT}:${DOCKERPORT}"
+    environment:
+      - RUNNING_IN_DOCKER=true
+      - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_URI_TEST=${MONGODB_URI_TEST}
+      - DOCKERPORT=${DOCKERPORT}
+      - CITY_ID=${CITY_ID}
+      - OPENWEATHERMAP_API_KEY=${OPENWEATHERMAP_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  swagger-ui:
+    container_name: swagger_ui
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    environment:
+      - SWAGGER_JSON=http://app:${DOCKERPORT}/api-docs/swagger.json
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
+

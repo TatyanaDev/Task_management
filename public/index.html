@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.io Client</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <h1>Real-Time Task Updates</h1>
+    <ol id="tasks"></ol>
+
+    <script>
+      const socket = io();
+
+      socket.on("taskUpdated", (updatedTask) => {
+        const tasksContainer = document.getElementById("tasks");
+        const taskElement = document.createElement("li");
+
+        taskElement.innerHTML = `
+          <h2>Task: ${updatedTask.title}</h2>
+          <p>Status: <strong>${updatedTask.status}</strong></p>
+        `;
+
+        tasksContainer.appendChild(taskElement);
+      });
+    </script>
+  </body>
+</html>
