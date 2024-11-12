@@ -2,6 +2,9 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
 const PORT = process.env.RUNNING_IN_DOCKER ? process.env.DOCKERPORT || 4000 : process.env.PORT || 5000;
+const HOST = process.env.RUNNING_IN_DOCKER ? "0.0.0.0" : "localhost";
+
+const baseURL = process.env.NODE_ENV === "production" ? "https://tatyanadev-task-management.onrender.com/api" : `http://${HOST}:${PORT}/api`;
 
 const options = {
   definition: {
@@ -13,7 +16,7 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:${PORT}/api`,
+        url: baseURL,
         description: "Development server",
       },
     ],

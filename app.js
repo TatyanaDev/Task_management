@@ -6,9 +6,21 @@ const router = require("./routes");
 
 const app = express();
 
+const defaultPort = process.env.PORT || 5000;
+const dockerPort = process.env.DOCKERPORT || 4000;
+
+const PORT = process.env.RUNNING_IN_DOCKER ? dockerPort : defaultPort;
+const HOST = process.env.RUNNING_IN_DOCKER ? "0.0.0.0" : "localhost";
+
+let allowedOrigin = `http://${HOST}:${PORT}`;
+
+if (process.env.NODE_ENV === "production") {
+  allowedOrigin = "https://tatyanadev-task-management.onrender.com";
+}
+
 app.use(
   cors({
-    origin: "*",
+    origin: allowedOrigin,
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })
