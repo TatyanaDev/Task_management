@@ -10,17 +10,11 @@ const defaultPort = process.env.PORT || 5000;
 const dockerPort = process.env.DOCKERPORT || 4000;
 
 const PORT = process.env.RUNNING_IN_DOCKER ? dockerPort : defaultPort;
-const HOST = process.env.RUNNING_IN_DOCKER ? "0.0.0.0" : "localhost";
-
-let allowedOrigin = `http://${HOST}:${PORT}`;
-
-if (process.env.NODE_ENV === "production") {
-  allowedOrigin = "https://tatyanadev-task-management.onrender.com";
-}
+const origin = process.env.NODE_ENV === "production" ? "https://tatyanadev-task-management.onrender.com" : `http://localhost:${PORT}`;
 
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin,
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })

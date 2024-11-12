@@ -10,7 +10,6 @@ const defaultPort = process.env.PORT || 5000;
 const dockerPort = process.env.DOCKERPORT || 4000;
 
 const PORT = process.env.RUNNING_IN_DOCKER ? dockerPort : defaultPort;
-const HOST = process.env.RUNNING_IN_DOCKER ? "0.0.0.0" : "localhost";
 
 const server = http.createServer(app);
 const io = socketIo(server);
@@ -31,11 +30,7 @@ mongoose
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 
-  let baseURL = `http://${HOST}:${PORT}`;
-
-  if (process.env.NODE_ENV === "production") {
-    baseURL = "https://tatyanadev-task-management.onrender.com";
-  }
+  const baseURL = process.env.NODE_ENV === "production" ? "https://tatyanadev-task-management.onrender.com" : `http://localhost:${PORT}`;
 
   console.log(`Swagger UI available at ${baseURL}/api-docs\nReal-time updates for task status available at ${baseURL}`);
 });
