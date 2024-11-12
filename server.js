@@ -1,7 +1,9 @@
-require("dotenv").config();
 const socketIo = require("socket.io");
 const mongoose = require("mongoose");
 const http = require("http");
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const app = require("./app");
 
 const defaultPort = process.env.PORT || 5000;
