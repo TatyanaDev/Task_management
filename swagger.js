@@ -3,7 +3,7 @@ const swaggerUi = require("swagger-ui-express");
 
 const PORT = process.env.RUNNING_IN_DOCKER ? process.env.DOCKERPORT || 4000 : process.env.PORT || 5000;
 
-const url = process.env.NODE_ENV === "production" ? "https://tatyanadev-task-management.onrender.com/api" : `http://localhost:${PORT}/api`;
+const url = process.env.NODE_ENV === "production" ? `${process.env.API_URL}/api` : `http://localhost:${PORT}/api`;
 
 const options = {
   definition: {

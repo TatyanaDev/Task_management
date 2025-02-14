@@ -10,7 +10,7 @@ const defaultPort = process.env.PORT || 5000;
 const dockerPort = process.env.DOCKERPORT || 4000;
 
 const PORT = process.env.RUNNING_IN_DOCKER ? dockerPort : defaultPort;
-const origin = process.env.NODE_ENV === "production" ? "https://tatyanadev-task-management.onrender.com" : `http://localhost:${PORT}`;
+const origin = process.env.NODE_ENV === "production" ? `${process.env.API_URL}` : `http://localhost:${PORT}`;
 
 app.use(
   cors({

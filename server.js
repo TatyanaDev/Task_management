@@ -30,7 +30,7 @@ mongoose
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 
-  const baseURL = process.env.NODE_ENV === "production" ? "https://tatyanadev-task-management.onrender.com" : `http://localhost:${PORT}`;
+  const baseURL = process.env.NODE_ENV === "production" ? `${process.env.API_URL}` : `http://localhost:${PORT}`;
 
   console.log(`Swagger UI available at ${baseURL}/api-docs\nReal-time updates for task status available at ${baseURL}`);
 });
